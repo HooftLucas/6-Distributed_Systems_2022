@@ -5,6 +5,9 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 public class CustomMap extends ConcurrentSkipListMap<Integer, String> {
 
+    /**
+     * This function writes the current map to a file called map.txt.
+     */
     public void exportMap() throws IOException {
         FileOutputStream fo = new FileOutputStream("./src/main/java/map.txt");
         ObjectOutputStream out = new ObjectOutputStream(fo);
@@ -14,6 +17,10 @@ public class CustomMap extends ConcurrentSkipListMap<Integer, String> {
         System.out.println("Current database saved to ./src/main/map.txt");
     }
 
+    /**
+     * It reads the file, converts it to a CustomMap object, and then adds all the entries from the CustomMap object to the
+     * current CustomMap object
+     */
     public void importMap() throws IOException, ClassNotFoundException {
         FileInputStream fi = new FileInputStream("./src/main/java/map.txt");
         ObjectInputStream in = new ObjectInputStream(fi);

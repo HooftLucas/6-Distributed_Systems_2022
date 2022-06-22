@@ -23,6 +23,9 @@ public class Node {
     private ReplicaManager replicaManager;
 
 
+    // This is the constructor of the Node class. It creates a new node with the given name. It also creates a new
+    // UDPInterface and TCPInterface for the node. It starts the discovery process and starts monitoring the local files.
+    // It also creates a new ReplicaManager for the node.
     public Node(String name) throws IOException {
         this.name = name;
         this.nodeID = HashFunction.hash(name);
@@ -107,17 +110,27 @@ public class Node {
         return replicaManager;
     }
 
+    /**
+     * Send a discovery message to the multicast group.
+     */
     public void discovery() throws IOException {
         Message m = new DiscoveryMessage(this.nodeID);
         udpInterface.sendMulticast(m);
     }
 
+    /**
+     * This function sends a LeavingNetworkMessage to the network, which will cause the network to remove this node from
+     * the ring.
+     */
     public void shutdown() throws IOException {
         Message m = new LeavingNetworkMessage(this.nodeID, this.previousID, this.nextID);
         udpInterface.sendMulticast(m);
     }
 
 
+    /**
+     * It creates a new Node object, passing in the first command line argument as the node's name
+     */
     public static void main(String[] args) throws IOException {
         Node node = new Node(args[0]);
     }

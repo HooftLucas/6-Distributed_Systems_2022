@@ -18,12 +18,17 @@ public class NamingServerRequestHandler extends Thread {
     private DatagramPacket receivedMessage;
     private Message response;
 
+    // The constructor of the class.
     public NamingServerRequestHandler(NamingServer server, InetAddress multicastAddress,  DatagramPacket receivedMessage) {
         this.server = server;
         this.multicastAddress = multicastAddress;
         this.receivedMessage = receivedMessage;
     }
 
+    /**
+     * It receives a message, checks if it's a ping message, if it is, it increments the timeout counter of the node that
+     * sent the ping message. If it's not a ping message, it checks what type of message it is and responds accordingly
+     */
     public void run() {
         String json = new String(this.receivedMessage.getData(), 0, this.receivedMessage.getLength());
         Gson gson = new Gson();

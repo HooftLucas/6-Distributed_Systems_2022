@@ -12,6 +12,7 @@ public class TCPInterface implements Runnable{
     private ServerSocket receiveSocket;
     private final String path = "src/main/java/Node/replicas";
 
+    // Creating a new TCPInterface object.
     public TCPInterface(Node node) {
         this.node = node;
         try {
@@ -22,6 +23,13 @@ public class TCPInterface implements Runnable{
         }
     }
 
+    /**
+     * It sends a file to a destination address
+     *
+     * @param destinationAddress The IP address of the node you want to send the file to.
+     * @param file The file to be sent
+     * @param log a FileLog object that contains the file name, file size, and the file's checksum.
+     */
     public void sendFile(InetAddress destinationAddress, File file, FileLog log) {
         try {
             Socket sendSocket = new Socket(destinationAddress,port);
@@ -51,6 +59,8 @@ public class TCPInterface implements Runnable{
 
 
     @Override
+    // The run method of the TCPInterface class. It is a thread that listens for incoming connections on port 8002. When a
+    // connection is made, it creates a new TCPFileHandler thread to handle the connection.
     public void run() {
         System.out.println("[NODE TCP]: Opening TCP listening on port " + port);
         while(true) {

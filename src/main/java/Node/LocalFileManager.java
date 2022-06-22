@@ -30,6 +30,12 @@ public class LocalFileManager extends Thread{
 
 
 
+    /**
+     * > This function creates a file log for a file that is being added to the system
+     *
+     * @param file the file to be hashed
+     * @return A FileLog object.
+     */
     public FileLog createFileLog(File file) {
         String filename = file.getName();
         fileIDMap.put(HashFunction.hash(filename), file);
@@ -44,6 +50,12 @@ public class LocalFileManager extends Thread{
         return this.fileMap.get(this.getFile(fileID));
     }
 
+    /**
+     * It updates the file log of a file
+     *
+     * @param fileID the fileID of the file you want to update
+     * @param fileLog the new file log
+     */
     public void updateFileLog(int fileID, FileLog fileLog) {
         File f = this.fileIDMap.get(fileID);
         System.out.println("[NODE]: old log");
@@ -56,6 +68,10 @@ public class LocalFileManager extends Thread{
 
 
 
+    /**
+     * This function initializes the file manager by reading the files in the directory and creating a file log for each
+     * file
+     */
     public void initialize() {
         File f = new File(this.filepath);
         this.filenames = new ArrayList<>(Arrays.asList(f.list()));
@@ -72,6 +88,9 @@ public class LocalFileManager extends Thread{
 
 
     @Override
+    // This is the main loop of the LocalFileManager. It checks for new files in the directory and sends a request to the
+    // server to get the replication address. It also checks for deleted files and sends an update to the server if the
+    // file is replicated.
     public void run() {
 
         // do not start until connection with the server is established

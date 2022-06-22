@@ -16,6 +16,7 @@ public class FailureWatcher extends Thread {
     public AtomicInteger timeOutCounter;
     public final int timeoutInterval = 2000;
 
+    // The constructor of the FailureWatcher class. It is used to initialize the variables of the class.
     public FailureWatcher(NamingServer server, InetAddress nodeAddress, int nodeID) {
         this.address = nodeAddress;
         this.nodeID = nodeID;
@@ -28,6 +29,10 @@ public class FailureWatcher extends Thread {
     }
 
 
+    /**
+     * If the current value of the timeOutCounter is the same as the value I read, then set the timeOutCounter to the new
+     * value. If the current value of the timeOutCounter is not the same as the value I read, then try again.
+     */
     public void incrementTimeOutCounter() {
         while (true) {
             int existingValue = getTimeOutCounter();
@@ -38,6 +43,10 @@ public class FailureWatcher extends Thread {
         }
     }
 
+    /**
+     * If the current value of the timeOutCounter is equal to the existingValue, then set the timeOutCounter to the
+     * newValue.
+     */
     public void decrementTimeOutCounter() {
         while (true) {
             int existingValue = getTimeOutCounter();
@@ -49,6 +58,10 @@ public class FailureWatcher extends Thread {
     }
 
 
+    /**
+     * The FailureWatcher thread sends a ping message to the node it is watching. If the node does not respond within a
+     * certain time interval, the FailureWatcher thread sends a FailureMessage to all other nodes in the network
+     */
     @Override
     public void run() {
         System.out.println("[NS UDP]: started FailureWatcher for node " + nodeID);

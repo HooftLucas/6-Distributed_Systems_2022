@@ -18,6 +18,8 @@ public class TCPFileHandler extends Thread{
     }
 
     @Override
+    // This is the code that is executed when the thread is started. It reads the file from the socket and saves it to the
+    // disk.
     public void run() {
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());

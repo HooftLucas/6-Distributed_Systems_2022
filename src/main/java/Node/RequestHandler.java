@@ -24,6 +24,9 @@ public class RequestHandler extends Thread {
         this.receivedMessage = receivedMessage;
     }
 
+    /**
+     * It handles all incoming messages
+     */
     public void run() {
         InetAddress senderIP = receivedMessage.getAddress();
         String json = new String(this.receivedMessage.getData(), 0, this.receivedMessage.getLength());

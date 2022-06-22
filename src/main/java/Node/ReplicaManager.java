@@ -31,6 +31,10 @@ public class ReplicaManager extends Thread{
         this.path = path;
     }
 
+    /**
+     * The ReplicaManager is shutting down, so it sends a RequestFileDestinationMessage to the previous node in the ring,
+     * asking it to take over the files it owns
+     */
     public void shutdown() throws IOException {
         System.out.println("[NODE] Replicamanager shutting down");
         HashMap<Integer, FileLog> h = this.fileLogs;
@@ -52,6 +56,11 @@ public class ReplicaManager extends Thread{
 
 
 
+    /**
+     * Adds a file to the list of files that this node is responsible for.
+     *
+     * @param log The file log object that contains the fileID, filename, and the file's data.
+     */
     public void addReplica(FileLog log) {
         fileLogs.put(log.getFileID(), log);
         System.out.println("[NODE]: Replicamanager added file " + log.getFilename());
@@ -65,6 +74,8 @@ public class ReplicaManager extends Thread{
     // not necessary apparently
     // looks for deletions and deletes replicas -> should be done with syncagents
     @Override
+    // Checking for changes in the local file system and if a file is deleted, it sends a DeleteFileMessage to the local
+    // owner and the server.
     public void run() {
         ArrayList<String> filenames = new ArrayList<>();
         while (true) {

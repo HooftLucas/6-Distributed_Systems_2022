@@ -57,6 +57,14 @@ public class FileLog implements Serializable {
         return localOwnerID;
     }
 
+    /**
+     * "If the downloadLocations list has only one element, add the ownerID to the list."
+     *
+     * The problem is that the downloadLocations list is never initialized to have only one element.  So, the if statement
+     * is always false.  The result is that the ownerID is never added to the downloadLocations list
+     *
+     * @param ownerID The ID of the user who owns the file.
+     */
     public void setOwnerID(int ownerID) {
         this.ownerID = ownerID;
         if(this.downloadLocations.size() == 1) {
@@ -64,6 +72,12 @@ public class FileLog implements Serializable {
         }
     }
 
+    /**
+     * This function sets the download locations of the file
+     *
+     * @param downloadLocations This is an ArrayList of Integers that represent the locations of the files that are to be
+     * downloaded.
+     */
     public void setDownloadLocations(ArrayList<Integer> downloadLocations) {
         this.downloadLocations = downloadLocations;
     }

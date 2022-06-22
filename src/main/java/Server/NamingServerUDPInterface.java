@@ -19,6 +19,12 @@ public class NamingServerUDPInterface implements Runnable{
 
     }
 
+    /**
+     * It takes a message, converts it to a JSON string, converts the string to a byte array, creates a datagram packet
+     * with the byte array, the multicast address and the port, and sends the packet
+     *
+     * @param m The message to be sent
+     */
     public void sendMulticast(Message m) throws IOException {
         String json = new Gson().toJson(m);
         byte[] buf = json.getBytes();
@@ -28,6 +34,14 @@ public class NamingServerUDPInterface implements Runnable{
 
     }
 
+    /**
+     * It takes a message, a destination address and a destination port, converts the message to a JSON string, puts the
+     * string in a byte array, puts the byte array in a datagram packet, and sends the packet
+     *
+     * @param m the message to be sent
+     * @param destinationAddress The IP address of the destination node
+     * @param destinationPort The port to send the message to.
+     */
     public void sendUnicast(Message m, InetAddress destinationAddress, int destinationPort) throws IOException {
         String json = new Gson().toJson(m);
         byte[] buf = json.getBytes();
@@ -41,6 +55,9 @@ public class NamingServerUDPInterface implements Runnable{
     }
 
 
+    /**
+     * It creates a new thread for each request it receives
+     */
     @Override
     public void run() {
         try {
